@@ -14,7 +14,7 @@ class CartItemUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return app(config('callmeaf-cart-items.form_request_authorizers.cart_item'))->store();
+        return app(config('callmeaf-cart-items.form_request_authorizers.cart_item'))->update();
     }
 
     /**
@@ -25,12 +25,8 @@ class CartItemUpdateRequest extends FormRequest
     public function rules(): array
     {
         return validationManager(rules: [
-            'type' => [new Enum(CartType::class)],
-            'user_id' => [Rule::exists(config('callmeaf-user.model'))],
-            'variation_ids' => ['array'],
-            'variation_ids.*.id' => [Rule::exists(config('callmeaf-variation.model'))],
-            'variation_ids.*.qty' => ['integer'],
-        ],filters: app(config("callmeaf-cart-items.validations.cart_item"))->store());
+            'qty' => ['integer'],
+        ],filters: app(config("callmeaf-cart-items.validations.cart_item"))->update());
     }
 
 }

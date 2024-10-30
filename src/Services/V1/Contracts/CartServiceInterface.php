@@ -17,4 +17,6 @@ interface CartServiceInterface extends BaseServiceInterface
      *
      */
     public function createItemsViaVariationsData(array $variationsData): Collection;
+
+    public function discharge(?array $events = []): self;
 }

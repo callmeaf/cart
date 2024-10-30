@@ -32,6 +32,7 @@ class CartResource extends JsonResource
             'deleted_at_text' => fn() => $this->deletedAtText,
             'user' => fn() => $this->user ? new (config('callmeaf-user.model_resource'))($this->user,only: $this->only['!user'] ?? []) : null,
             'items' => fn() => $this->items->count() ? new (config('callmeaf-cart-items.model_resource_collection'))($this->items,only: $this->only['!items'] ?? []) : null,
+            'items_count' => fn() => $this->items()->count(),
         ],only: $this->only);
     }
 }

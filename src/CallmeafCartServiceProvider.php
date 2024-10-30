@@ -2,6 +2,7 @@
 
 namespace Callmeaf\Cart;
 
+use Callmeaf\Cart\Commands\RemoveUselessCartItemsCommand;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +32,7 @@ class CallmeafCartServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerLang();
         $this->registerSeeders();
+        $this->registerCommands();
     }
 
     private function registerConfig()
@@ -68,6 +70,14 @@ class CallmeafCartServiceProvider extends ServiceProvider
                 }
             });
         }
+
+        foreach (config('callmeaf-cart-items.events') as $event => $listeners) {
+            Event::listen($event,function($event) use ($listeners) {
+                foreach($listeners as $listener) {
+                    app($listener)->handle($event);
+                }
+            });
+        }
     }
 
     private function registerViews(): void
@@ -96,6 +106,15 @@ class CallmeafCartServiceProvider extends ServiceProvider
     {
         $this->callAfterResolving(DatabaseSeeder::class,function ($seeder) {
             $seeder->callOnce(config('callmeaf-cart.seeders'));
+        });
+    }
+
+    private function registerCommands(): void
+    {
+        $this->app->booted(function() {
+            $this->commands([
+                RemoveUselessCartItemsCommand::class,
+            ]);
         });
     }
 }

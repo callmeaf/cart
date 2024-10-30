@@ -6,7 +6,7 @@ use Callmeaf\Cart\Models\Cart;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CartDestroyed
+class CartDischarged
 {
     use Dispatchable, SerializesModels;
 

@@ -12,9 +12,6 @@ return [
         \Callmeaf\Cart\Events\CartItemStored::class => [
             // listeners
         ],
-        \Callmeaf\Cart\Events\CartItemShowed::class => [
-            // listeners
-        ],
         \Callmeaf\Cart\Events\CartItemUpdated::class => [
             // listeners
         ],
@@ -48,4 +45,5 @@ return [
         'cart_item' => \Callmeaf\Cart\Utilities\V1\Api\CartItem\CartItemControllerMiddleware::class,
     ],
     'searcher' => \Callmeaf\Cart\Utilities\V1\Api\CartItem\CartItemSearcher::class,
+    'remove_useless_cart_items_minutes' => env('REMOVE_USELESS_CART_ITEMS_MINUTES',120),
 ];

@@ -81,8 +81,14 @@ class CartResources extends Resources
                 'items',
                 '!items' => [
                     'id',
-                    'variation_id',
                     'qty',
+                    'variation',
+                    '!variation' => [
+                        'id',
+                        'title',
+                        'price',
+                        'discount_price',
+                    ],
                 ],
             ]
         ];
@@ -110,10 +116,13 @@ class CartResources extends Resources
         return $this;
     }
 
-    public function destroy(): self
+    public function discharge(): self
     {
         $this->data = [
-            'relations' => [],
+            'relations' => [
+                'user',
+                'items',
+            ],
             'attributes' => [
                 'id',
                 'type',
@@ -126,7 +135,19 @@ class CartResources extends Resources
                     'mobile',
                     'full_name',
                 ],
-            ],
+                'items',
+                '!items' => [
+                    'id',
+                    'qty',
+                    'variation',
+                    '!variation' => [
+                        'id',
+                        'title',
+                        'price',
+                        'discount_price',
+                    ],
+                ],
+            ]
         ];
         return $this;
     }

@@ -22,6 +22,15 @@ class CartItemFormRequestValidator extends FormRequestValidator
         ];
     }
 
+    public function storeInFuture(): array
+    {
+        return [
+            'user_id' => false,
+            'variation_id' => true,
+            'qty' => false,
+        ];
+    }
+
     public function show(): array
     {
         return [];
@@ -30,7 +39,7 @@ class CartItemFormRequestValidator extends FormRequestValidator
     public function update(): array
     {
         return [
-            'qty' => true,
+            'qty' => false,
         ];
     }
 

@@ -92,18 +92,20 @@ class CartItemResources extends Resources
     public function update(): self
     {
         $this->data = [
-            'relations' => [],
+            'relations' => [
+                'cart'
+            ],
             'attributes' => [
                 'id',
+                'variation_id',
                 'type',
                 'type_text',
+                'qty',
                 'created_at_text',
                 'updated_at_text',
-                'user',
-                '!user' => [
+                'cart',
+                '!cart' => [
                     'id',
-                    'mobile',
-                    'full_name',
                 ],
             ],
         ];
@@ -120,6 +122,8 @@ class CartItemResources extends Resources
                 'type_text',
                 'created_at_text',
                 'updated_at_text',
+                'deleted_at',
+                'deleted_at_text',
                 'user',
                 '!user' => [
                     'id',

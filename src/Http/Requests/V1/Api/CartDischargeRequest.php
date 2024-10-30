@@ -4,14 +4,14 @@ namespace Callmeaf\Cart\Http\Requests\V1\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CartDestroyRequest extends FormRequest
+class CartDischargeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return app(config('callmeaf-cart.form_request_authorizers.cart'))->destroy();
+        return app(config('callmeaf-cart.form_request_authorizers.cart'))->discharge();
     }
 
     /**
@@ -23,7 +23,7 @@ class CartDestroyRequest extends FormRequest
     {
         return validationManager(rules: [
 
-        ],filters: app(config("callmeaf-cart.validations.cart"))->destroy());
+        ],filters: app(config("callmeaf-cart.validations.cart"))->discharge());
     }
 
 }

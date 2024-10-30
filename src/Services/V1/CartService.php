@@ -30,4 +30,11 @@ class CartService extends BaseService implements CartServiceInterface
         $cartItemService = app(config('callmeaf-cart-items.service'));
 
     }
+
+    public function discharge(?array $events = []): CartServiceInterface
+    {
+        $this->model->items()->delete();
+        $this->eventsCaller($events);
+        return $this;
+    }
 }

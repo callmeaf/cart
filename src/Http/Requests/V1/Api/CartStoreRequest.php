@@ -26,9 +26,9 @@ class CartStoreRequest extends FormRequest
     {
         return validationManager(rules: [
             'type' => [new Enum(CartType::class)],
-            'user_id' => [Rule::exists(config('callmeaf-user.model'))],
+            'user_id' => [Rule::exists(config('callmeaf-user.model'),'id')],
             'variation_ids' => ['array'],
-            'variation_ids.*.id' => [Rule::exists(config('callmeaf-variation.model'))],
+            'variation_ids.*.id' => [Rule::exists(config('callmeaf-variation.model'),'id')],
             'variation_ids.*.qty' => ['integer'],
         ],filters: app(config("callmeaf-cart.validations.cart"))->store());
     }

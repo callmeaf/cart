@@ -5,14 +5,22 @@ namespace Callmeaf\Cart\Http\Controllers\V1\Api;
 use Callmeaf\Base\Enums\ResponseTitle;
 use Callmeaf\Base\Http\Controllers\V1\Api\ApiController;
 use Callmeaf\Cart\Events\CartDestroyed;
+use Callmeaf\Cart\Events\CartDischarged;
+use Callmeaf\Cart\Events\CartForceDestroyed;
 use Callmeaf\Cart\Events\CartIndexed;
+use Callmeaf\Cart\Events\CartRestored;
 use Callmeaf\Cart\Events\CartShowed;
 use Callmeaf\Cart\Events\CartStored;
+use Callmeaf\Cart\Events\CartTrashed;
 use Callmeaf\Cart\Events\CartUpdated;
 use Callmeaf\Cart\Http\Requests\V1\Api\CartDestroyRequest;
+use Callmeaf\Cart\Http\Requests\V1\Api\CartDischargeRequest;
+use Callmeaf\Cart\Http\Requests\V1\Api\CartForceDestroyRequest;
 use Callmeaf\Cart\Http\Requests\V1\Api\CartIndexRequest;
+use Callmeaf\Cart\Http\Requests\V1\Api\CartRestoreRequest;
 use Callmeaf\Cart\Http\Requests\V1\Api\CartShowRequest;
 use Callmeaf\Cart\Http\Requests\V1\Api\CartStoreRequest;
+use Callmeaf\Cart\Http\Requests\V1\Api\CartTrashedIndexRequest;
 use Callmeaf\Cart\Http\Requests\V1\Api\CartUpdateRequest;
 use Callmeaf\Cart\Models\Cart;
 use Callmeaf\Cart\Services\V1\CartService;
@@ -50,27 +58,14 @@ class CartController extends ApiController
         }
     }
 
-    public function store(CartStoreRequest $request)
+    public function show(CartShowRequest $request,string|int $id)
     {
         try {
-            $resources = $this->cartResources->store();
-            $cart = $this->cartService->create(data: $request->validated(),events: [
-                CartStored::class
-            ])->getModel(asResource: true,attributes: $resources->attributes(),relations: $resources->relations());
-            return apiResponse([
-                'cart' => $cart,
-            ],__('callmeaf-base::v1.successful_created', [
-                'title' => $cart->responseTitles(ResponseTitle::STORE),
-            ]));
-        } catch (\Exception $exception) {
-            report($exception);
-            return apiResponse([],$exception);
-        }
-    }
-
-    public function show(CartShowRequest $request,Cart $cart)
-    {
-        try {
+            if($id === config('callmeaf-base.route_model_binding_key_for_authenticate_user')) {
+                $cart = authUser($request)->currentCart;
+            } else {
+                $cart = $this->cartService->freshQuery()->where(column: 'id',valueOrOperation: $id)->first()->getModel();
+            }
             $resources = $this->cartResources->show();
             $cart = $this->cartService->setModel($cart)->getModel(
                 asResource: true,
@@ -107,21 +102,24 @@ class CartController extends ApiController
         }
     }
 
-    public function destroy(CartDestroyRequest $request,Cart $cart)
+    public function discharge(CartDischargeRequest $request,Cart $cart)
     {
         try {
-            $resources = $this->cartResources->destroy();
-            $cart = $this->cartService->setModel($cart)->delete(events: [
-                CartDestroyed::class,
-            ])->getModel(asResource: true,attributes: $resources->attributes(),relations: $resources->relations());
-            return apiResponse([
-                'cart' => $cart,
-            ],__('callmeaf-base::v1.successful_deleted', [
-                'title' =>  $cart->responseTitles(ResponseTitle::DESTROY)
-            ]));
+            $resources = $this->cartResources->discharge();
+            $cart = $this->cartService->setModel($cart)->discharge(
+                events: [
+                    CartDischarged::class
+                ],
+            )->getModel(asResource: true,attributes: $resources->attributes(),relations: $resources->relations());
+             return apiResponse([
+                 'cart' => $cart,
+             ],__('callmeaf-base::v1.successful_updated',[
+                 'title' => $cart->responseTitles('discharge'),
+             ]));
         } catch (\Exception $exception) {
             report($exception);
             return apiResponse([],$exception);
         }
     }
+
 }

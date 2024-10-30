@@ -47,9 +47,7 @@ class Cart extends Model implements HasResponseTitles,HasEnum
         return [
             'store' => $user?->mobile ?? $default,
             'update' => $user?->mobile ?? $default,
-            'destroy' => $user?->mobile ?? $default,
-            'restore' => $user?->mobile ?? $default,
-            'force_destroy' => $user?->mobile ?? $default,
+            'discharge' => $user?->mobile ?? $default,
         ][$key instanceof ResponseTitle ? $key->value : $key];
     }
 

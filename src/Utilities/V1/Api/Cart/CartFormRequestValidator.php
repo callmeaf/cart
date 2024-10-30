@@ -16,7 +16,7 @@ class CartFormRequestValidator extends FormRequestValidator
     public function store(): array
     {
         return [
-            'user_id' => false,
+            'user_id' => true,
             'type' => true,
             'variation_ids' => false,
             'variation_ids.*.id' => true,
@@ -37,7 +37,7 @@ class CartFormRequestValidator extends FormRequestValidator
         ];
     }
 
-    public function destroy(): array
+    public function discharge(): array
     {
         return [];
     }

@@ -37,8 +37,8 @@ class CartFormRequestAuthorizer extends FormRequestAuthorizer
         return userCan(PermissionName::CART_UPDATE);
     }
 
-    public function destroy(): bool
+    public function discharge(): bool
     {
-        return userCan(PermissionName::CART_DESTROY);
+        return userCan(PermissionName::CART_UPDATE);
     }
 }
