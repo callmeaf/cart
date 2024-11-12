@@ -12,8 +12,8 @@ class CallmeafCartServiceProvider extends ServiceProvider
     private const CONFIGS_DIR = __DIR__ . '/../config';
     private const CONFIGS_KEY = 'callmeaf-cart';
     private const CONFIGS_GROUP = 'callmeaf-cart-config';
-    private const VARIATION_TYPE_CONFIGS_KEY = 'callmeaf-cart-items';
-    private const VARIATION_TYPE_CONFIGS_GROUP = 'callmeaf-cart-items-config';
+    private const CART_ITEM_CONFIGS_KEY = 'callmeaf-cart-items';
+    private const CART_ITEM_CONFIGS_GROUP = 'callmeaf-cart-items-config';
     private const ROUTES_DIR = __DIR__ . '/../routes';
     private const DATABASE_DIR = __DIR__ . '/../database';
     private const DATABASE_GROUPS = 'callmeaf-cart-migrations';
@@ -42,10 +42,10 @@ class CallmeafCartServiceProvider extends ServiceProvider
             self::CONFIGS_DIR . '/callmeaf-cart.php' => config_path('callmeaf-cart.php'),
         ],self::CONFIGS_GROUP);
 
-        $this->mergeConfigFrom(self::CONFIGS_DIR . '/callmeaf-cart-items.php',self::VARIATION_TYPE_CONFIGS_KEY);
+        $this->mergeConfigFrom(self::CONFIGS_DIR . '/callmeaf-cart-items.php',self::CART_ITEM_CONFIGS_KEY);
         $this->publishes([
             self::CONFIGS_DIR . '/callmeaf-cart-items.php' => config_path('callmeaf-cart-items.php'),
-        ],self::VARIATION_TYPE_CONFIGS_GROUP);
+        ],self::CART_ITEM_CONFIGS_GROUP);
     }
 
     private function registerRoute(): void
