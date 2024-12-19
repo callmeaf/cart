@@ -21,18 +21,10 @@ return [
         \Callmeaf\Cart\Events\CartUpdated::class => [
             // listeners
         ],
-        \Callmeaf\Cart\Events\CartDestroyed::class => [
+        \Callmeaf\Cart\Events\CartDischarged::class => [
             // listeners
         ],
-        \Callmeaf\Cart\Events\CartRestored::class => [
-            // listeners
-        ],
-        \Callmeaf\Cart\Events\CartTrashed::class => [
-            // listeners
-        ],
-        \Callmeaf\Cart\Events\CartForceDestroyed::class => [
-            // listeners
-        ],
+
     ],
     'validations' => [
         'cart' => \Callmeaf\Cart\Utilities\V1\Api\Cart\CartFormRequestValidator::class,
