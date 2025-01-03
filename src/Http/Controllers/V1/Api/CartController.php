@@ -32,9 +32,13 @@ class CartController extends ApiController
     protected CartResources $cartResources;
     public function __construct()
     {
-        app(config('callmeaf-cart.middlewares.cart'))($this);
         $this->cartService = app(config('callmeaf-cart.service'));
         $this->cartResources = app(config('callmeaf-cart.resources.cart'));
+    }
+
+    public static function middleware(): array
+    {
+        return app(config('callmeaf-cart.middlewares.cart'))();
     }
 
     public function index(CartIndexRequest $request)

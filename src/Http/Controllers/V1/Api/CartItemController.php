@@ -31,10 +31,14 @@ class CartItemController extends ApiController
     protected UserService $userService;
     public function __construct()
     {
-        app(config('callmeaf-cart-items.middlewares.cart_item'))($this);
         $this->cartItemService = app(config('callmeaf-cart-items.service'));
         $this->cartItemResources = app(config('callmeaf-cart-items.resources.cart_item'));
         $this->userService = app(config('callmeaf-user.service'));
+    }
+
+    public static function middleware(): array
+    {
+        return app(config('callmeaf-cart-items.middlewares.cart_item'))();
     }
 
 
