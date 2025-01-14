@@ -42,7 +42,7 @@ class CartItemFormRequestAuthorizer extends FormRequestAuthorizer
     public function update(): bool
     {
         $result = userCan(PermissionName::CART_UPDATE);
-        $user = $this->request->user();
+        $user = authUser(request: $this->request);
         if($user->isSuperAdminOrAdmin()) {
             return $result;
         }
@@ -52,7 +52,7 @@ class CartItemFormRequestAuthorizer extends FormRequestAuthorizer
     public function destroy(): bool
     {
         $result = userCan(PermissionName::CART_DESTROY);
-        $user = $this->request->user();
+        $user = authUser(request: $this->request);
         if($user->isSuperAdminOrAdmin()) {
             return $result;
         }
