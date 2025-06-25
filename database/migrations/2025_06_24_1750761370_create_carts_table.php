@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('carts', function (Blueprint $table) {
+            $table->id();
+            /**
+             * @var \Callmeaf\User\App\Repo\Contracts\UserRepoInterface $userRepo
+             */
+            $userRepo = app(\Callmeaf\User\App\Repo\Contracts\UserRepoInterface::class);
+            $table->string('user_identifier')->index();
+            $table->foreign('user_identifier')->references($userRepo->getModel()->getRouteKeyName())->on($userRepo->getTable())->cascadeOnUpdate()->cascadeOnDelete();
+
+            $table->string('type');
+
+            $table->index(['user_identifier','type']);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('carts');
+    }
+};
