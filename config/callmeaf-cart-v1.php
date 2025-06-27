@@ -151,7 +151,10 @@ return [
         RequestType::ADMIN->value => [
             'prefix' => 'carts',
             'as' => 'carts.',
-            'middleware' => [],
+            'middleware' => [
+                'auth:sanctum',
+                'role:' . \Callmeaf\Role\App\Enums\RoleName::SUPER_ADMIN->value,
+            ],
         ],
     ],
     'enums' => [

@@ -32,7 +32,9 @@ class CartController extends ApiController implements HasMiddleware
          * @var User $user
          */
         $user = $this->request->user();
-        return $this->cartRepo->latest()->builder(fn(Builder $query) => $query->where('user_identifier',$user->identifier()))->search()->paginate();
+        return $this->cartRepo->latest()->builder(fn(Builder $query) => $query->where('user_identifier',$user->identifier())->with([
+            'items.variant'
+        ]))->search()->paginate();
     }
 
     /**
@@ -91,5 +93,6 @@ class CartController extends ApiController implements HasMiddleware
     {
         return $this->cartRepo->forceDelete(id: $id);
     }
+
 
 }

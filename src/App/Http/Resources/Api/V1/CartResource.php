@@ -3,6 +3,7 @@
 namespace Callmeaf\Cart\App\Http\Resources\Api\V1;
 
 use Callmeaf\Cart\App\Models\Cart;
+use Callmeaf\CartItem\App\Repo\Contracts\CartItemRepoInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,6 +19,10 @@ class CartResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /**
+         * @var CartItemRepoInterface $cartItemRepo
+         */
+        $cartItemRepo = app(CartItemRepoInterface::class);
         return [
             'type' => $this->type,
             'type_text' => $this->typeText,
@@ -27,6 +32,7 @@ class CartResource extends JsonResource
             'updated_at_text' => $this->updatedAtText(),
             'deleted_at' => $this->deleted_at,
             'deleted_at_text' => $this->deletedAtText(),
+            'items' => $cartItemRepo->toResourceCollection($this->whenLoaded('items')),
         ];
     }
 }

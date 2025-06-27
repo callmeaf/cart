@@ -6,6 +6,9 @@ use Callmeaf\Base\App\Models\BaseModel;
 use Callmeaf\Base\App\Traits\Model\HasDate;
 use Callmeaf\Base\App\Traits\Model\HasSearch;
 use Callmeaf\Base\App\Traits\Model\HasType;
+use Callmeaf\Cart\App\Repo\Contracts\CartRepoInterface;
+use Callmeaf\CartItem\App\Repo\Contracts\CartItemRepoInterface;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cart extends BaseModel
@@ -28,6 +31,15 @@ class Cart extends BaseModel
         return [
             ...(self::config()['enums'] ?? []),
         ];
+    }
+
+    public function items(): HasMany
+    {
+        /**
+         * @var CartItemRepoInterface $cartItemRepo
+         */
+        $cartItemRepo = app(CartItemRepoInterface::class);
+        return $this->hasMany($cartItemRepo->getModel()::class);
     }
 
     public function searchParams(): array
