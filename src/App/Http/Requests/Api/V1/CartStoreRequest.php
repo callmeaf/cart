@@ -40,7 +40,7 @@ class CartStoreRequest extends FormRequest
     public function rules(UserRepoInterface $userRepo): array
     {
         return [
-            'user_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->getRouteKeyName())],
+            'user_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->identifierKey())],
             'type' => ['required',new Enum(CartType::class)],
         ];
     }

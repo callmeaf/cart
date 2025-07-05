@@ -18,7 +18,7 @@ return new class extends Migration
              */
             $userRepo = app(\Callmeaf\User\App\Repo\Contracts\UserRepoInterface::class);
             $table->string('user_identifier')->index();
-            $table->foreign('user_identifier')->references($userRepo->getModel()->getRouteKeyName())->on($userRepo->getTable())->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('user_identifier')->references($userRepo->getModel()->identifierKey())->on($userRepo->getTable())->cascadeOnUpdate()->cascadeOnDelete();
 
             $table->string('type');
 
