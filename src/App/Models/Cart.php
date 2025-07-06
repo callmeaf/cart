@@ -43,7 +43,7 @@ class Cart extends BaseModel
         return $this->hasMany($cartItemRepo->getModel()::class);
     }
 
-    public function variants(bool $withProduct = false)
+    public function variants(bool $withProduct = false): array
     {
         $relation = ['variant'];
         if($withProduct) {

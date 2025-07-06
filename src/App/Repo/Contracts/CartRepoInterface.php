@@ -12,5 +12,9 @@ use Callmeaf\Cart\App\Http\Resources\Api\V1\CartResource;
  */
 interface CartRepoInterface extends BaseRepoInterface
 {
-
+    /**
+     * @param mixed $id
+     * @return CartResource
+     */
+    public function emptyCart(mixed $id);
 }
